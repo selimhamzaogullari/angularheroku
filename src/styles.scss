@@ -1,0 +1,203 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  color: #333;
+}
+
+header {
+  height: 50px;
+  background-color: #f4f4f4;
+  img {
+    height: 50px;
+    margin-left: 25px;
+  }
+}
+
+footer {
+  @extend header;
+  font-size: 13px;
+}
+
+table {
+  font-size: 14px;
+  tr:nth-child(even) {
+    td {
+      background-color: #F7FAFF;
+      border-bottom: 1px solid #F2F8FE;
+      border-top: 1px solid #F2F8FE;
+      font-size: 15px
+    }
+  }
+  th {
+    background-color: #EDF3FF;
+  }
+}
+
+/* Loading Animation */
+
+.loader {
+  position: relative;
+  .start-screen {
+    display: flex;
+    justify-content: center;
+    flex-flow: nowrap column;
+    align-items: center;
+    min-height: calc(100vh - 457px);
+    position: absolute;
+    min-width: 100%;
+    .loading {
+      display: flex;
+      margin: 24px 0;
+    }
+    .loading__element {
+      font: normal 100 2rem/1 'Montserrat', sans-serif;
+      color: #333;
+      letter-spacing: .5em;
+    }
+    [class*="el"] {
+      animation: bouncing 2s infinite ease;
+    }
+  }
+}
+
+@for $i from 1 through 9 {
+  $delay: percentage($i);
+  .el#{$i} {
+    animation-delay: $delay / 1000% + s;
+  }
+}
+
+@keyframes bouncing {
+  0%, 100% {
+    transform: scale3d(1,1,1);
+  }
+  50% {
+    transform: scale3d(0,0,1);
+  }
+}
+
+.text-green {
+  color: #84DD66
+}
+
+.text-red {
+  color: #DD8B66
+}
+
+.fa-sort-down {
+  vertical-align: top;
+}
+
+.fa-sort-up {
+  vertical-align: sub;
+}
+
+.fa-plus, .fa-trash {
+  color: gray;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+/* Select and Input*/
+
+.select-css {
+  background-color: transparent;
+  border-bottom: 1px solid #c8c8c8;
+  color: gray;
+  position: relative;
+  width: 30%;
+  &:before {
+    display: block;
+    border-top: 6px solid gray;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    text-align: center;
+    content: '';
+    pointer-events: none;
+  }
+  select {
+    background-color: transparent;
+    border: 0 none;
+    box-shadow: none;
+    color: gray;
+    display: block;
+    font-size: 100%;
+    line-height: normal;
+    margin: 0;
+    padding: .5em;
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  select::-ms-expand {
+    display: none;
+  }
+}
+select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+
+.input-css {
+  position: relative;
+  input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #c8c8c8;
+    color: gray;
+    padding-left: 14px;
+  }
+  span {
+    position: absolute;
+  }
+}
+
+.button-find {
+  button {
+    width: 200px;
+    background-color: #fff;
+    border: 1px solid #c8c8c8;
+    color: gray;
+    padding: 5px;
+    -webkit-transition: all ease-in-out .22s;
+    -moz-transition: all ease-in-out .22s;
+    -ms-transition: all ease-in-out .22s;
+    -o-transition: all ease-in-out .22s;
+    transition: all ease-in-out .22s;
+    &:hover {
+      background-color: #c8c8c8;
+      border-color: #c8c8c8;
+      color: #fff;
+    }
+  }
+}
+
+.alert {
+  font-size: 13px;
+  position: absolute;
+  bottom: 0;
+  right: 20px;
+}
+
+/* Pagination */
+
+.page-link {
+  color: #212529;
+  &:hover {
+    color: #212529;
+  }
+}
+
+.page-item.active .page-link {
+  background-color: #e9ecef;
+  border-color: #dee2e6;
+  color: #212529;
+}

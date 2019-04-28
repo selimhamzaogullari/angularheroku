@@ -1,0 +1,161 @@
+<header>
+  <img src="../assets/img/logo.png" alt="">
+</header>
+<div class="container">
+  <div>
+    <h3 class="text-center mt-5">Coin Analysis</h3>
+
+    <ngb-alert *ngIf="showAlert" [type]="alertType" [dismissible]="false">{{message}}</ngb-alert>
+
+    <div class="d-flex justify-content-between align-items-end mt-5 mb-5">
+      <div class="select-css">
+        <select name="select" id="select1" [(ngModel)]="select0">
+          <option [ngValue]="null">Choose</option>
+          <option [ngValue]="value0">{{value0}}</option>
+          <option [ngValue]="value1">{{value1}}</option>
+          <option [ngValue]="value2">{{value2}}</option>
+        </select>
+      </div>
+      <div class="input-css">
+        <span>%</span>
+        <input type="text" [(ngModel)]="input0">
+      </div>
+      <div class="select-css">
+        <select name="select2" id="select2" [(ngModel)]="select10">
+          <option [ngValue]="null">Choose</option>
+          <option [ngValue]="'LOSS'">loss</option>
+          <option [ngValue]="'PROFIT'">profit</option>
+        </select>
+      </div>
+      <i class="fas fa-plus mb-1" (click)="addLine(2); showTrashBtn = false"></i>
+    </div>
+    <div class="d-flex justify-content-between align-items-end mb-5" *ngIf="showTwoLine">
+      <div class="select-css">
+        <select name="select" id="select12" [(ngModel)]="select1">
+          <option [ngValue]="null">Choose</option>
+          <option *ngIf="select0 != value0 && select0" [ngValue]="value0">{{value0}}</option>
+          <option *ngIf="select0 != value1 && select0" [ngValue]="value1">{{value1}}</option>
+          <option *ngIf="select0 != value2 && select0" [ngValue]="value2">{{value2}}</option>
+        </select>
+      </div>
+      <div class="input-css">
+        <span>%</span>
+        <input type="text" [(ngModel)]="input1">
+      </div>
+      <div class="select-css">
+        <select name="select2" id="select22" [(ngModel)]="select11">
+          <option [ngValue]="null">Choose</option>
+          <option [ngValue]="'LOSS'">loss</option>
+          <option [ngValue]="'PROFIT'">profit</option>
+        </select>
+      </div>
+      <i class="fas fa-plus mb-1" (click)="addLine(3); showTrashBtn; showTrashBtn = true" *ngIf="!showTrashBtn"></i>
+      <i class="fas fa-trash mb-1" (click)="deleteLine(2)" *ngIf="showTrashBtn"></i>
+    </div>
+    <div class="d-flex justify-content-between align-items-end mb-5" *ngIf="showTreeLine">
+      <div class="select-css">
+        <select name="select" id="select3" [(ngModel)]="select2">
+          <option [ngValue]="null">Choose</option>
+          <option *ngIf="select0 != value0 && select1 != value0 && select0 && select1" [ngValue]="value0">{{value0}}</option>
+          <option *ngIf="select0 != value1 && select1 != value1 && select0 && select1" [ngValue]="value1">{{value1}}</option>
+          <option *ngIf="select0 != value2 && select1 != value2 && select0 && select1" [ngValue]="value2">{{value2}}</option>
+        </select>
+      </div>
+      <div class="input-css">
+        <span>%</span>
+        <input type="text" [(ngModel)]="input2">
+      </div>
+      <div class="select-css">
+        <select name="select2" id="select32" [(ngModel)]="select12">
+          <option [ngValue]="null">Choose</option>
+          <option [ngValue]="'LOSS'">loss</option>
+          <option [ngValue]="'PROFIT'">profit</option>
+        </select>
+      </div>
+      <i class="fas fa-trash mb-1" (click)="deleteLine(3)"></i>
+    </div>
+    <div class="d-flex justify-content-center mb-5 button-find">
+      <button (click)="filterCoins()">Find</button>
+    </div>
+  </div>
+  <div class="container loader" *ngIf="!loading">
+    <div class="start-screen">
+
+      <div class="loading">
+        <div class="loading__element el1">L</div>
+        <div class="loading__element el2">o</div>
+        <div class="loading__element el3">a</div>
+        <div class="loading__element el4">d</div>
+        <div class="loading__element el5">i</div>
+        <div class="loading__element el6">n</div>
+        <div class="loading__element el7">g</div>
+      </div>
+
+    </div>
+  </div>
+  <div *ngIf="loading">
+    <table class="table table-borderless mt-4 mb-4">
+      <thead>
+      <tr>
+        <th scope="col">Rank</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Change 1h</th>
+        <th scope="col">Change 1d</th>
+        <th scope="col">Change 7d</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of countries">
+        <td>{{data.cmc_rank}}</td>
+        <td>{{data.name}}</td>
+        <td>₺{{(data.quote.trPriceInfo.price).toFixed(3) | number}}</td>
+        <td [ngClass]="{'text-green': data.quote.trPriceInfo.percent_change_1h > 0, 'text-red': data.quote.trPriceInfo.percent_change_1h < 0}">
+          <i class="fas " [ngClass]="{'fa-sort-down': data.quote.trPriceInfo.percent_change_1h < 0, 'fa-sort-up': data.quote.trPriceInfo.percent_change_1h > 0}"></i>
+          %{{(data.quote.trPriceInfo.percent_change_1h).toFixed(2)}}
+        </td>
+        <td [ngClass]="{'text-green': data.quote.trPriceInfo.percent_change_24h > 0, 'text-red': data.quote.trPriceInfo.percent_change_24h < 0}">
+          <i class="fas " [ngClass]="{'fa-sort-down': data.quote.trPriceInfo.percent_change_24h < 0, 'fa-sort-up': data.quote.trPriceInfo.percent_change_24h > 0}"></i>
+          %{{(data.quote.trPriceInfo.percent_change_24h).toFixed(2)}}
+        </td>
+        <td [ngClass]="{'text-green': data.quote.trPriceInfo.percent_change_7d > 0, 'text-red': data.quote.trPriceInfo.percent_change_7d < 0}">
+          <i class="fas " [ngClass]="{'fa-sort-down': data.quote.trPriceInfo.percent_change_7d < 0, 'fa-sort-up': data.quote.trPriceInfo.percent_change_7d > 0}"></i>
+          %{{(data.quote.trPriceInfo.percent_change_7d).toFixed(2)}}
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-center p-2">
+      <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" [maxSize]="5">
+      </ngb-pagination>
+      <!--
+      <select class="custom-select" style="width: auto" [(ngModel)]="pageSize">
+        <option [ngValue]="2">2 items per page</option>
+        <option [ngValue]="4">4 items per page</option>
+        <option [ngValue]="6">6 items per page</option>
+      </select>
+      -->
+    </div>
+  </div>
+</div>
+<!--
+<div style="display: block">
+  <canvas #baseCanvas
+          baseChart
+          height="10vh"
+          width="20vw"
+          [chartType]="'line'"
+          [datasets]="[
+    { data: [330, 600, 260, 700], label: 'Account A' }
+  ]"
+          [labels]="chartLabels"
+          [options]="chartOptions"
+          [legend]="true"
+          [colors]="lineChartColors"
+          (chartClick)="onChartClick($event)">
+  </canvas>
+</div>
+-->
+<footer class="d-flex align-items-center justify-content-end" *ngIf="loading">Clone by CoinMarketCap
+</footer>
+<router-outlet></router-outlet>
